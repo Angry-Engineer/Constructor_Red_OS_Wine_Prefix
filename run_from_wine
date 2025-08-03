@@ -1,0 +1,17 @@
+#!/bin/bash 
+
+exe=$1
+shift 
+file=$@
+
+#удаляем кавычки в начале и конце
+w_path=`echo $file | sed 's/"//g'` 
+
+#конвертируем пути
+u_path=`/usr/bin/winepath --unix "${w_path}"`
+
+#запускаем приложение
+${exe} "${u_path}"
+
+
+
