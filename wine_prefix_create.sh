@@ -8,7 +8,7 @@ prefix_path=~/${prefix_name}
 
 env WINEARCH=win64 WINEPREFIX="${prefix_path}" winecfg
 
-WINEPREFIX="${prefix_path}" winetricks corefonts
+WINEPREFIX="${prefix_path}" winetricks allfonts
 WINEPREFIX="${prefix_path}" winetricks --force dotnet20
 WINEPREFIX="${prefix_path}" winetricks --force dotnet48
 
