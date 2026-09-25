@@ -5,23 +5,9 @@ home_path=~
 #имя префикса
 prefix_name=".wine_PostgreSQL_Client"
 
-cp -f run_from_wine "${home_path}/${prefix_name}/"
-chmod 750 "${home_path}/${prefix_name}/run_from_wine"
-
 #обновляем привязки типов файлов для проброса открытия
-touch "${home_path}/${prefix_name}/constructor.reg"
-cat << EOF > "${home_path}/${prefix_name}/constructor.reg"
-Windows Registry Editor Version 5.00
-
-[HKEY_CLASSES_ROOT\txtfile]
-@="Text Document"
-
-[HKEY_CLASSES_ROOT\txtfile\shell]
-
-[HKEY_CLASSES_ROOT\txtfile\shell\open]
-
-[HKEY_CLASSES_ROOT\txtfile\shell\open\command]
-@="${home_path}/${prefix_name}/run_from_wine pluma \\\\\"%1\\\\\""
+cat << EOF > "${home_path}/constructor.reg"
+REGEDIT4
 
 [HKEY_CLASSES_ROOT\pdffile]
 @="PDF Document"
@@ -31,7 +17,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\pdffile\shell\open]
 
 [HKEY_CLASSES_ROOT\pdffile\shell\open\command]
-@="${home_path}/${prefix_name}/run_from_wine atril \\\\\"%1\\\\\""
+@="winebrowser \"%1\""
 
 [HKEY_CLASSES_ROOT\jpegfile]
 @="JPEG Image"
@@ -41,7 +27,9 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\jpegfile\shell\open]
 
 [HKEY_CLASSES_ROOT\jpegfile\shell\open\command]
-@="${home_path}/${prefix_name}/run_from_wine eom \\\\\"%1\\\\\""
+@="winebrowser -nohome \"%1\""
+
+[-HKEY_CLASSES_ROOT\jpegfile\shell\open\ddeexec]
 
 [HKEY_CLASSES_ROOT\pngfile]
 @="PNG Image"
@@ -51,7 +39,9 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\pngfile\shell\open]
 
 [HKEY_CLASSES_ROOT\pngfile\shell\open\command]
-@="${home_path}/${prefix_name}/run_from_wine eom \\\\\"%1\\\\\""
+@="winebrowser -nohome \"%1\""
+
+[-HKEY_CLASSES_ROOT\pngfile\shell\open\ddeexec]
 
 [HKEY_CLASSES_ROOT\rtffile]
 @="Rich Text Document"
@@ -61,7 +51,17 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\rtffile\shell\open]
 
 [HKEY_CLASSES_ROOT\rtffile\shell\open\command]
-@="${home_path}/${prefix_name}/run_from_wine libreoffice \\\\\"%1\\\\\""
+@="winebrowser \"%1\""
+
+[HKEY_CLASSES_ROOT\odtfile]
+@="LibreOffice Document"
+
+[HKEY_CLASSES_ROOT\odtfile\shell]
+
+[HKEY_CLASSES_ROOT\odtfile\shell\open]
+
+[HKEY_CLASSES_ROOT\odtfile\shell\open\command]
+@="winebrowser \"%1\""
 
 [HKEY_CLASSES_ROOT\odffile]
 @="LibreOffice Document"
@@ -71,7 +71,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\odffile\shell\open]
 
 [HKEY_CLASSES_ROOT\odffile\shell\open\command]
-@="${home_path}/${prefix_name}/run_from_wine libreoffice \\\\\"%1\\\\\""
+@="winebrowser \"%1\""
 
 [HKEY_CLASSES_ROOT\odgfile]
 @="LibreOffice Document"
@@ -81,7 +81,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\odgfile\shell\open]
 
 [HKEY_CLASSES_ROOT\odgfile\shell\open\command]
-@="${home_path}/${prefix_name}/run_from_wine libreoffice \\\\\"%1\\\\\""
+@="winebrowser \"%1\""
 
 [HKEY_CLASSES_ROOT\EXCELfile]
 
@@ -90,7 +90,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\EXCELfile\Shell\Open]
 
 [HKEY_CLASSES_ROOT\EXCELfile\Shell\Open\command]
-@="${home_path}/${prefix_name}/run_from_wine libreoffice \\\\\"%1\\\\\""
+@="winebrowser \"%1\""
 
 [HKEY_CLASSES_ROOT\DOCfile]
 
@@ -99,7 +99,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\DOCfile\Shell\Open]
 
 [HKEY_CLASSES_ROOT\DOCfile\Shell\Open\command]
-@="${home_path}/${prefix_name}/run_from_wine libreoffice \\\\\"%1\\\\\""
+@="winebrowser \"%1\""
 
 [HKEY_CLASSES_ROOT\VSDfile]
 
@@ -108,7 +108,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\VSDfile\Shell\Open]
 
 [HKEY_CLASSES_ROOT\VSDfile\Shell\Open\command]
-@="${home_path}/${prefix_name}/run_from_wine libreoffice \\\\\"%1\\\\\""
+@="winebrowser \"%1\""
 
 [HKEY_CLASSES_ROOT\.xls]
 @="EXCELfile"
@@ -134,13 +134,17 @@ Windows Registry Editor Version 5.00
 @="VSDfile"
 "Content Type"="application/vnd.ms-visio.drawing"
 
+[HKEY_CLASSES_ROOT\.odt]
+@="odtfile"
+"Content Type"="application/vnd.oasis.opendocument.text"
+
 [HKEY_CLASSES_ROOT\.odf]
 @="odffile"
-"Content Type"="application/libreoffice.text"
+"Content Type"="application/vnd.oasis.opendocument.formula"
 
 [HKEY_CLASSES_ROOT\.odg]
 @="odgfile"
-"Content Type"="application/libreoffice.drawing"
+"Content Type"="application/vnd.oasis.opendocument.graphics"
 
 EOF
 
